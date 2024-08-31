@@ -1,6 +1,9 @@
 package com.amazon.ata.optionals.optionals;
 
 import com.amazon.ata.optionals.optionals.dao.AuthorDao;
+import com.amazon.ata.optionals.optionals.models.Author;
+import com.amazon.ata.optionals.optionals.models.Book;
+import com.amazon.ata.optionals.optionals.models.Printing;
 import com.amazon.ata.optionals.optionals.models.Publisher;
 
 import java.util.Optional;
@@ -44,7 +47,12 @@ public class GetPublisherOfBestRatedPaperbackForAuthorActivity {
         }
         */
 
-        return Optional.empty();
+        //return Optional.empty();
+
+        return authorDao.findAuthorByName(authorName)
+                .flatMap(Author::getBestRatedBook)
+                .flatMap(Book::getPaperback)
+                .flatMap(Printing::getPublisher); // This will return an Optional
     }
 
 }
